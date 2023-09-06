@@ -84,6 +84,9 @@
                 </table>
             </section>
         </main>
+        <footer class="app-footer text-center mx-auto xl:w-3/4 bg-blue-500 text-white my-10 h-10">
+            <a href="https://github.com/samolazoff" class="py-2">@Samolazoff</a>
+        </footer>
     </div>
 </body>
 </html>
