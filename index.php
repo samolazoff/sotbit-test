@@ -59,7 +59,7 @@
                         <label for="maxBalanceProduct" class="mb-2">Max Balance</label>
                         <input type="number" name="maxBalanceProduct" id="maxBalanceProduct" class="border w-3/4">
                     </div>
-                    <button type="submit">Parsing</button>
+                    <button type="submit" class="border border-blue bg-blue-500 px-2 py-1 rounded bg text-white">Parsing</button>
                 </form>
             </section>
             <section class="app-visible-db xl:w-3/4 ">
