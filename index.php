@@ -14,6 +14,7 @@
         <main class="app-main flex mx-auto xl:w-3/4">
             <section class="app-filters xl:w-1/4">
                 <h2 class="title_section text-3xl text-center">Filters</h2>
+                
                 <form method="post" class="form-filter">
                     <div class="input-wrap flex flex-col mb-2">
                         <label for="fullArcticle" class="mb-2">Arcticle</label>
@@ -59,11 +60,48 @@
                         <label for="maxBalanceProduct" class="mb-2">Max Balance</label>
                         <input type="number" name="maxBalanceProduct" id="maxBalanceProduct" class="border w-3/4">
                     </div>
-                    <button type="submit" class="border border-blue bg-blue-500 px-2 py-1 rounded bg text-white">Parsing</button>
+                    <button type="submit" class="border border-blue bg-blue-500 px-2 py-1 rounded text-white">Parsing</button>
                 </form>
             </section>
             <section class="app-visible-db xl:w-3/4 ">
                 <h2 class="title_section text-3xl text-center">Data Base</h2>
+                <?php 
+                    require_once "PHPExcel.php";
+
+                    $DB_HOST='localhost';
+                    $DB_USER='root';
+                    $DB_PASSWORD='';
+                    $DB_NAME='Samolazoff';
+
+                    if(!empty($_FILES)){
+                        move_uploaded_file($_FILES['exelFile']['tmp_name'], 'static/db.xls');
+
+                        $sql = new mysqli($DB_HOST, $DB_USER, $DB_PASSWORD);
+                        $db = 'CREATE DATABASE ' . $DB_NAME;
+                        mysqli_query($sql, $db);
+
+                        $conn = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
+
+                        $test = "CREATE TABLE Test (
+                            id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                            $DB_NAME VARCHAR(30) NOT NULL,
+                            product VARCHAR(100) NOT NULL,
+                            price INT(6) NOT NULL,
+                            total INT(6) NOT NULL
+                            )";
+                        mysqli_query($conn, $test);
+
+
+                        
+                    };
+                ?>
+                <form enctype="multipart/form-data" method="post" class="form-loading">
+                    <div class="input-wrap flex flex-col mb-2">
+                        <label for="exelFile" class="mb-2">Loading</label>
+                        <input type="file" name="exelFile" id="exelFile" class="border w-1/4">
+                    </div>
+                    <button type="submit" class="border border-blue bg-blue-500 px-2 py-1 rounded text-white">Submit</button>
+                </form>
                 <table class="w-full mt-5">
                     <thead>
                         <tr>
