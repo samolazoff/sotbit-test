@@ -14,11 +14,10 @@
         <main class="app-main flex mx-auto xl:w-3/4">
             <section class="app-filters xl:w-1/4">
                 <h2 class="title_section text-3xl text-center">Filters</h2>
-                
                 <form method="post" class="form-filter">
                     <div class="input-wrap flex flex-col mb-2">
-                        <label for="fullArcticle" class="mb-2">Arcticle</label>
-                        <input type="text" name="fullArcticle" id="fullArcticle" class="border w-3/4">
+                        <label for="fullArticle" class="mb-2">Arcticle</label>
+                        <input type="text" name="fullArticle" id="fullArticle" class="border w-3/4">
                     </div>
                     <div class="input-wrap flex flex-col mb-2">
                         <label for="firstArcticle" class="mb-2">The first simbols of article</label>
@@ -29,20 +28,8 @@
                         <input type="text" name="lastArcticle" id="lastArcticle" class="border w-3/4">
                     </div>
                     <div class="input-wrap flex flex-col mb-2">
-                        <label for="moreArcticle" class="mb-2">More article</label>
-                        <input type="text" name="moreArcticle" id="moretArcticle" class="border w-3/4">
-                    </div>
-                    <div class="input-wrap flex flex-col mb-2">
-                        <label for="lessArcticle" class="mb-2">Less article</label>
-                        <input type="text" name="lessArcticle" id="lesstArcticle" class="border w-3/4">
-                    </div>
-                    <div class="input-wrap flex flex-col mb-2">
                         <label for="nameProduct" class="mb-2">Name Product</label>
                         <input type="text" name="nameProduct" id="nameProduct" class="border w-3/4">
-                    </div>
-                    <div class="input-wrap flex flex-col mb-2">
-                        <label for="priceProduct" class="mb-2">Price</label>
-                        <input type="number" name="priceProduct" id="priceProduct" class="border w-3/4">
                     </div>
                     <div class="input-wrap flex flex-col mb-2">
                         <label for="minPriceProduct" class="mb-2">Min Price</label>
@@ -110,37 +97,81 @@
                     </div>
                     <button type="submit" class="border border-blue bg-blue-500 px-2 py-1 rounded text-white">Submit</button>
                 </form>
-                <table class="w-full mt-5">
-                    <thead>
-                        <tr>
-                            <th class="border bg-blue-200">Article</th>
-                            <th class="border bg-blue-200">Name</th>
-                            <th class="border bg-blue-200">Price</th>
-                            <th class="border bg-blue-200">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <?php
+                    $filename= 'static/db.xls';
+                    if(!file_exists($filename)){?>
+                        <h3> File doesn't load..</h3>
+                        <?php }
+                         else {?>
+                            <table class="w-full mt-5">
+                                <thead>
+                                    <tr>
+                                        <th class="border bg-blue-200">Article</th>
+                                        <th class="border bg-blue-200">Name</th>
+                                        <th class="border bg-blue-200">Price</th>
+                                        <th class="border bg-blue-200">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                        $conn = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
+                                        if(count($_POST)<1){
+                                            $min_id = rand(1, 100);
+                                            $max_id = $min_id +10;
+                                            for($i = $min_id; $i < $max_id; $i++){
+                                                $row_front = "SELECT * FROM test WHERE id=$i";
+                                                $query= mysqli_query($conn,  $row_front);
+                                                $products = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                                                foreach($products as $arr){ ?>
+                                                    <tr>
+                                                        <td class="border text-center"><?php echo $arr['article']; ?></td>
+                                                        <td class="border text-center"><?php echo $arr['product']; ?></td>
+                                                        <td class="border text-center"><?php echo $arr['price']; ?></td>
+                                                        <td class="border text-center"><?php echo $arr['total']; ?></td>
+                                                    </tr>
+                                                <?php }
+                                            }
+                                        }else{
+                                            $fullArticle = $_POST['fullArticle']?$_POST['fullArticle']:'article';
+                                            $firstArcticle = $_POST['firstArcticle']?$_POST['firstArcticle']:'firstArcticle';
+                                            $lastArcticle = $_POST['lastArcticle']?$_POST['lastArcticle']:'lastArcticle';
+                                            $nameProduct = $_POST['nameProduct']?$_POST['nameProduct']:'nameProduct';
+                                            $minPriceeProduct = $_POST['minPriceeProduct']? $_POST['minPriceeProduct']:0;
+                                            $maxPriceeProduct = $_POST['maxPriceeProduct']?$_POST['maxPriceeProduct']:1000000;
+                                            $minBalanceProduct = $_POST['minBalanceProduct']?$_POST['minBalanceProduct']:0;
+                                            $maxBalanceProduct = $_POST['maxBalanceProduct']?$_POST['maxBalanceProduct']:100000;
+                                            print_r($_POST);
+                                            
+                                            $row_front = "SELECT * FROM test WHERE 
+                                                        article != NULL AND 
+                                                        article = $fullArticle AND 
+                                                        price >= $minPriceeProduct AND 
+                                                        price <= $maxPriceeProduct AND
+                                                        total  >=  $minBalanceProduct AND
+                                                        total  <=  $maxBalanceProduct AND
+                                                        product = product";
+                                            $query= mysqli_query($conn,  $row_front);
+                                            $products = mysqli_fetch_all($query, MYSQLI_ASSOC);
+;
+                                            foreach($products as $arr){ ?>
+                                                <tr>
+                                                    <td class="border text-center"><?php echo $arr['article']; ?></td>
+                                                    <td class="border text-center"><?php echo $arr['product']; ?></td>
+                                                    <td class="border text-center"><?php echo $arr['price']; ?></td>
+                                                    <td class="border text-center"><?php echo $arr['total']; ?></td>
+                                                </tr>
+                                            <?php }
+                                        };
+                                    ?>
+                                   
 
-                        <?php 
-                            $min_id = rand(1, 100);
-                            $max_id = $min_id +10;
-                            for($i = $min_id; $i < $max_id; $i++){
-                                $row_front = "SELECT * FROM test WHERE id=$i";
-                                $query= mysqli_query($conn,  $row_front);
-                                $products = mysqli_fetch_all($query, MYSQLI_ASSOC); ?>
-                                <?php 
-                                    foreach($products as $arr){ ?>
-                                        <tr>
-                                            <td class="border text-center"><?php echo $arr['article']; ?></td>
-                                            <td class="border text-center"><?php echo $arr['product']; ?></td>
-                                            <td class="border text-center"><?php echo $arr['price']; ?></td>
-                                            <td class="border text-center"><?php echo $arr['total']; ?></td>
-                                        </tr>
-                                    <?php }?>
-                                 <?php }?>
-      
-                    </tbody>
-                </table>
+
+
+
+
+                        <?php }?>
+                                </tbody>
+                            </table>
             </section>
         </main>
         <footer class="app-footer text-center mx-auto xl:w-3/4 bg-blue-500 text-white my-10 h-10">
