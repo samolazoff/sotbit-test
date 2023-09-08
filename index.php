@@ -116,16 +116,29 @@
                             <th class="border bg-blue-200">Article</th>
                             <th class="border bg-blue-200">Name</th>
                             <th class="border bg-blue-200">Price</th>
-                            <th class="border bg-blue-200">Balance</th>
+                            <th class="border bg-blue-200">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border text-center">586786748</td>
-                            <td class="border text-center">CORDIANT_SNOW_CROSS, PW-2 75Q б/к ОШ</td>
-                            <td class="border text-center">2153</td>
-                            <td class="border text-center">8</td>
-                        </tr>
+
+                        <?php 
+                            $min_id = rand(1, 100);
+                            $max_id = $min_id +10;
+                            for($i = $min_id; $i < $max_id; $i++){
+                                $row_front = "SELECT * FROM test WHERE id=$i";
+                                $query= mysqli_query($conn,  $row_front);
+                                $products = mysqli_fetch_all($query, MYSQLI_ASSOC); ?>
+                                <?php 
+                                    foreach($products as $arr){ ?>
+                                        <tr>
+                                            <td class="border text-center"><?php echo $arr['article']; ?></td>
+                                            <td class="border text-center"><?php echo $arr['product']; ?></td>
+                                            <td class="border text-center"><?php echo $arr['price']; ?></td>
+                                            <td class="border text-center"><?php echo $arr['total']; ?></td>
+                                        </tr>
+                                    <?php }?>
+                                 <?php }?>
+      
                     </tbody>
                 </table>
             </section>
