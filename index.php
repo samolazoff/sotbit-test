@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./dist/output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Test</title>
 </head>
 <body>
@@ -12,6 +12,24 @@
             <h1 class="logo py-2">Test</h1>
         </header>
         <main class="app-main flex mx-auto xl:w-3/4">
+            <div class="block-setting bg-blue-200 ">
+                <h3>Setting-server</h3>
+                <form class="form-setting xl:w-1/4" method="post">
+                    <div class="input-wrap flex flex-col mb-2">
+                        <label for="host" class="mb-2">Host</label>
+                        <input type="text" name="host" id="host" class="border w-3/4">
+                    </div>
+                    <div class="input-wrap flex flex-col mb-2">
+                        <label for="user" class="mb-2">User</label>
+                        <input type="text" name="user" id="user" class="border w-3/4">
+                    </div>
+                    <div class="input-wrap flex flex-col mb-2">
+                        <label for="password" class="mb-2">Host</label>
+                        <input type="password" name="password" id="password" class="border w-3/4">
+                    </div>
+                    <button type="submit" class="border border-blue bg-blue-500 px-2 py-1 rounded text-white">Submit</button>
+                </form>
+            </div>
             <section class="app-filters xl:w-1/4">
                 <h2 class="title_section text-3xl text-center">Filters</h2>
                 <form method="post" class="form-filter">
@@ -52,46 +70,23 @@
             </section>
             <section class="app-visible-db xl:w-3/4 ">
                 <h2 class="title_section text-3xl text-center">Data Base</h2>
+                <div class="block-btn flex justify-start gap-3 my-7">
+                    <button class="border border-blue bg-blue-500 px-2 py-1 rounded text-white btn-setting">Settings</button>
+                    <button class="border border-blue bg-red-500 px-2 py-1 rounded text-white btn-reset">Reset</button>
+                </div>
                 <?php 
-                    require_once "SimpleXLS.php";
-                    use Shuchkin\SimpleXLS;
-
-                    $DB_HOST='localhost';
-                    $DB_USER='root';
-                    $DB_PASSWORD='';
-                    $DB_NAME='Samolazoff';
-
-                    if(!empty($_FILES)){
-                        move_uploaded_file($_FILES['exelFile']['tmp_name'], 'static/db.xls');
-
-                        $sql = new mysqli($DB_HOST, $DB_USER, $DB_PASSWORD);
-                        $db = 'CREATE DATABASE ' . $DB_NAME;
-                        mysqli_query($sql, $db);
-
-                        $conn = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
-
-                        $test = "CREATE TABLE test (
-                            id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                            article VARCHAR(30) NOT NULL,
-                            product VARCHAR(100) NOT NULL,
-                            price INT(6) NOT NULL,
-                            total INT(6) NOT NULL
-                            )";
-                        mysqli_query($conn, $test);
-
-                        $xls = SimpleXLS::parse('static/db.xls');
-                        
-                        $arr_db = $xls->rows();
-                        unset($arr_db[0]);
-                        foreach ($arr_db as $arr) {
-                            $row = "INSERT INTO test (article, product, price, total) VALUES ('$arr[0]', '$arr[1]', '$arr[2]', '$arr[3]')";
-                            mysqli_query($conn, $row);
-                        }
-                    };
-
+                    require_once 'util/createDb.php';
                 ?>
-                <form enctype="multipart/form-data" method="post" class="form-loading">
-                    <div class="input-wrap flex flex-col mb-2">
+                <p class="pr-5 my-5 flex flex-col justify-start items-start text-xl txt-start">
+                    <span>Hi! This project is designed for data analysis!</span> 
+                    <span>To get started, we recommend making the  <button class="border border-blue bg-blue-500 px-2 py-1 rounded text-white btn-setting">Settings</button>.</span> 
+                    <span>After making the settings, download the Excel file.
+                    Before filling out the parsing form, the program will output 10 random rows from the database table.</span> 
+                    <span>If you want to download another Excel file, click the <b>Reset</b> button and download again.</span> 
+                </p>
+                <form enctype="multipart/form-data" method="post" class="mt-10">
+                    
+                    <div class="input-wrap flex flex-col mb-2 mt-10">
                         <label for="exelFile" class="mb-2">Loading</label>
                         <input type="file" name="exelFile" id="exelFile" class="border w-1/4">
                     </div>
@@ -143,7 +138,7 @@
                                             print_r($_POST);
                                             
                                             $row_front = "SELECT * FROM test WHERE 
-                                                        article != NULL AND 
+                                                        -- article != NULL AND 
                                                         article = $fullArticle AND 
                                                         price >= $minPriceeProduct AND 
                                                         price <= $maxPriceeProduct AND
@@ -152,7 +147,6 @@
                                                         product = product";
                                             $query= mysqli_query($conn,  $row_front);
                                             $products = mysqli_fetch_all($query, MYSQLI_ASSOC);
-;
                                             foreach($products as $arr){ ?>
                                                 <tr>
                                                     <td class="border text-center"><?php echo $arr['article']; ?></td>
@@ -163,12 +157,6 @@
                                             <?php }
                                         };
                                     ?>
-                                   
-
-
-
-
-
                         <?php }?>
                                 </tbody>
                             </table>
