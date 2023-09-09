@@ -34,8 +34,10 @@
         $arr_db = $xls->rows();
         unset($arr_db[0]);
         foreach ($arr_db as $arr) {
-            $row = "INSERT INTO test (article, product, price, total) VALUES ('$arr[0]', '$arr[1]', '$arr[2]', '$arr[3]')";
-            mysqli_query($conn, $row);
+            if($arr[0]!=''){
+                $row = "INSERT INTO test (article, product, price, total) VALUES ('$arr[0]', '$arr[1]', '$arr[2]', '$arr[3]')";
+                mysqli_query($conn, $row);
+            }
         };
     };
     header("Location: ../pages/dataBase.php");
