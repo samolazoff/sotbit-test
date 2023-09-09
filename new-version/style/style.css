@@ -3,3 +3,34 @@
 .app-main{
     min-height: 600px;
 }
+.logo{
+    width: 100px !important
+}
+.btn-setting,
+.btn-reset,
+.btn-submit{
+    width: 100px;
+    height: 40px;
+}
+.btn-setting:hover,
+.btn-reset:hover,
+.btn-submit:hover{
+    color: #ffffff;
+}
+.app-start-page__txt{
+    width: 450px;
+}
+.form-setting{
+   width: 320px;
+   height: 80vh;
+}
+.img__exit{
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.img__exit:hover{
+    color:#ffffff;
+}
