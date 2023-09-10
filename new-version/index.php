@@ -7,6 +7,22 @@
 <body>
 <?php require_once 'components/header.php'?>
     <main class="app-main">
+        <div class="box-btn container d-flex justify-content-end gap-2 align-items-center position-relative">
+            <button class="btn bg-info btn-setting my-2">Settings</button>
+            <?php
+                $fileExcel = 'temp/db.xls';
+                if(file_exists($fileExcel)){
+                    ?>
+                    <form action="scripts/resetDB.php" method="post">
+                        <button class="btn bg-danger btn-reset">Reset</button>
+                    </form>
+                    <?php
+                        }
+                    ?>
+            <?php 
+                require_once 'components/block-settings.php';
+            ?>
+        </div>
         <section class="app-start-page container text-center">
             <h2 class="title-block py-3">Home</h2>
             <div class="content d-flex justify-content-center ">

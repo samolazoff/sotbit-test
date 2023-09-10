@@ -40,14 +40,15 @@
                             <?php }
                         }
                     }else{
-                        $fullArticle = $_POST['fullArticle']?$_POST['fullArticle']:'article';
-                        $firstArcticle = $_POST['firstArcticle']?($_POST['firstArcticle'].'%'):'%';
-                        $lastArcticle = $_POST['lastArcticle']?('%'.$_POST['lastArcticle']):'%';
-                        $nameProduct = $_POST['nameProduct']?$_POST['nameProduct']:'nameProduct';
+                        $fullArticle = $_POST['fullArticle']? strip_tags($_POST['fullArticle']):'article';
+                        $firstArcticle = $_POST['firstArcticle']?( strip_tags($_POST['firstArcticle']).'%'):'%';
+                        $lastArcticle = $_POST['lastArcticle']?('%'. strip_tags($_POST['lastArcticle'])):'%';
+                        $nameProduct = $_POST['nameProduct']? strip_tags($_POST['nameProduct']):'nameProduct';
                         $minPriceeProduct = $_POST['minPriceeProduct']? $_POST['minPriceeProduct']:0;
                         $maxPriceeProduct = $_POST['maxPriceeProduct']?$_POST['maxPriceeProduct']:1000000;
                         $minBalanceProduct = $_POST['minBalanceProduct']?$_POST['minBalanceProduct']:0;
                         $maxBalanceProduct = $_POST['maxBalanceProduct']?$_POST['maxBalanceProduct']:100000;
+
                         print_r($firstArcticle);
                         print_r($lastArcticle);
                         

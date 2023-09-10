@@ -17,19 +17,19 @@
     </div>
     <div class="input-wrap d-flex flex-column justify-content-start align-items-start gap-1">
         <label for="minPriceProduct" class="mb-2">Min Price</label>
-        <input type="number" name="minPriceeProduct" id="minPriceProduct">
+        <input type="number" name="minPriceeProduct" id="minPriceProduct" min="0" max="1000000">
     </div>
     <div class="input-wrap d-flex flex-column justify-content-start align-items-start gap-1">
         <label for="maxPriceProduct" class="mb-2">Max Price</label>
-        <input type="number" name="maxPriceeProduct" id="maxPriceProduct" >
+        <input type="number" name="maxPriceeProduct" id="maxPriceProduct" min="0" max="10000000">
     </div>
     <div class="input-wrap d-flex flex-column justify-content-start align-items-start gap-1">
         <label for="minBalanceProduct" class="mb-2">Min Balance</label>
-        <input type="number" name="minBalanceProduct" id="minBalanceProduct" >
+        <input type="number" name="minBalanceProduct" id="minBalanceProduct" min="0" max="1000000">
     </div>
     <div class="input-wrap d-flex flex-column justify-content-start align-items-start gap-1">
         <label for="maxBalanceProduct" class="mb-2">Max Balance</label>
-        <input type="number" name="maxBalanceProduct" id="maxBalanceProduct">
+        <input type="number" name="maxBalanceProduct" id="maxBalanceProduct" min="0" max="1000000">
     </div>
     <button type="submit" class="btn btn-primary btn-submit">Parsing</button>
 </form>

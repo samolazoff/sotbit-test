@@ -1,8 +1,8 @@
 @import url('./reset.css');
 
-/* .app-main{
+.app-main{
     min-height: 650px;
-} */
+}
 .logo{
     width: 100px !important
 }
